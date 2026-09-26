@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="index.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRC Visualizer</title>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="tab-headers">
+        <button onclick="showSendTab()" class="send-tab-btn">Send</button>
+        <button onclick="showReceiveTab()" class="receive-tab-btn">Receive</button>
+      </div>
+      <div class="send-tab">
+        <div class="parameter-inputs">
+          <input
+            type="text"
+            name="data"
+            id="data"
+            placeholder="Data Frame (0 and 1)"
+            oninput="this.value = this.value.replace(/[^01]/g, '')"
+          />
+          <input
+            type="text"
+            name="generator"
+            id="generator"
+            placeholder="Generator (0 and 1)"
+            oninput="this.value = this.value.replace(/[^01]/g, '')"
+          />
+        </div>
+      </div>
+      <div class="receive-tab">receive</div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
