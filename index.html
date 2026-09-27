@@ -9,9 +9,9 @@
   </head>
   <body>
     <div class="app-container">
-      <div class="tab-headers">
-        <button onclick="showSendTab()" class="send-tab-btn">Send</button>
-        <button onclick="showReceiveTab()" class="receive-tab-btn">Receive</button>
+      <div class="header">
+        <h1>CRC Visualization</h1>
+        <p>Cyclic Redundancy Check</p>
       </div>
       <div class="send-tab">
         <div class="parameter-inputs">
@@ -29,9 +29,20 @@
             placeholder="Generator (0 and 1)"
             oninput="this.value = this.value.replace(/[^01]/g, '')"
           />
+          <div>
+            <p class="error"></p>
+            <button class="start-btn" onclick="startVisualization()">Start</button>
+          </div>
+        </div>
+        <div class="calculation-space">
+          <div class="extracted-data"></div>
+          <div class="extracted-generator"></div>
+          <div class="divider-line"></div>
+          <div class="remainder"></div>
+          <div class="checksum hide"></div>
+          <div class="checksum-label hide">checksum</div>
         </div>
       </div>
-      <div class="receive-tab">receive</div>
     </div>
     <script src="index.js"></script>
   </body>
