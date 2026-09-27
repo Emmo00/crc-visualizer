@@ -1,6 +1,8 @@
 async function startVisualization() {
   if (!validateInputFields()) return;
 
+  resetCalculationSpace();
+
   let dataFrame = getDataFrameInputValue();
   const generator = getGeneratorInputValue();
 
@@ -25,7 +27,7 @@ async function startVisualization() {
 
   // get padding bits
   const nbPaddingBits = generator.length - 1;
-  let paddingBits = "0".repeat(nbPaddingBits);
+  let paddingBits = '0'.repeat(nbPaddingBits);
 
   // append bits to data frame and get new data character element padding width
   dataFrame = dataFrame + paddingBits;
@@ -52,16 +54,16 @@ async function startVisualization() {
   let i = 0;
   while (true) {
     if (!shouldContinueDivision(remainder, divisor.length)) {
-      console.log("breaking division");
+      console.log('breaking division');
       break;
     }
 
-    if (remainder[nbShifts] == "1") {
-      remainder = "0".repeat(nbShifts) + xor(remainder.slice(nbShifts), divisor);
-      console.log("remainder", remainder);
+    if (remainder[nbShifts] == '1') {
+      remainder = '0'.repeat(nbShifts) + xor(remainder.slice(nbShifts), divisor);
+      console.log('remainder', remainder);
       showRemainder(remainder);
     } else {
-      console.log("else remainder", remainder);
+      console.log('else remainder', remainder);
       nbShifts++;
       shiftGeneratorElement(dataFrameCharacterWidth, nbShifts);
     }
@@ -81,19 +83,19 @@ async function startVisualization() {
   // scroll to bottom
   window.scrollTo({
     top: document.documentElement.scrollHeight,
-    behavior: "smooth", // Use 'auto' for instant scrolling
+    behavior: 'smooth', // Use 'auto' for instant scrolling
   });
 }
 
 function shouldContinueDivision(dividend, divisorLength) {
-  console.log("dividend", dividend, "index of", dividend.indexOf("1"), "divisor length:", divisorLength);
-  const firstOneIndex = dividend.indexOf("1");
+  console.log('dividend', dividend, 'index of', dividend.indexOf('1'), 'divisor length:', divisorLength);
+  const firstOneIndex = dividend.indexOf('1');
 
   return dividend.slice(firstOneIndex).length >= divisorLength;
 }
 
 function xor(dividend, divisor) {
-  let remainder = "";
+  let remainder = '';
 
   for (let i = 0; i < dividend.length; i++) {
     if (divisor.length - 1 < i) {
@@ -102,9 +104,9 @@ function xor(dividend, divisor) {
     }
 
     if (dividend[i] == divisor[i]) {
-      remainder += "0";
+      remainder += '0';
     } else {
-      remainder += "1";
+      remainder += '1';
     }
   }
 
@@ -118,7 +120,11 @@ function shiftGeneratorElement(shiftWidth, nbShifts) {
 }
 
 function showDividerLine() {
-  document.querySelector(".divider-line").classList.add("line");
+  document.querySelector('.divider-line').classList.add('line');
+}
+
+function hideDividerLine() {
+  document.querySelector('.divider-line').classList.remove('line');
 }
 
 function normalizeGeneratorBitsCharacterWidth(characterWidth) {
@@ -127,9 +133,9 @@ function normalizeGeneratorBitsCharacterWidth(characterWidth) {
   generatorEl.style.gridTemplateColumns = `repeat(5, ${characterWidth}px)`;
 
   generatorEl.childNodes.forEach((bitEl) => {
-    bitEl.style.transform = "scale(1.05)";
+    bitEl.style.transform = 'scale(1.05)';
     setTimeout(() => {
-      bitEl.style.transform = "scale(1)";
+      bitEl.style.transform = 'scale(1)';
     }, 150);
   });
 
@@ -139,9 +145,9 @@ function normalizeGeneratorBitsCharacterWidth(characterWidth) {
 function gridifyDataElement(nbOfBits) {
   const dataEl = getDataEl();
 
-  dataEl.style.display = "grid";
+  dataEl.style.display = 'grid';
   //   dataEl.style.gap = "0px";
-  dataEl.style.minHeight = "0px";
+  dataEl.style.minHeight = '0px';
   dataEl.style.gridTemplateColumns = `repeat(${nbOfBits}, 1fr)`;
 
   return dataEl.children[0].getBoundingClientRect().width;
@@ -152,29 +158,29 @@ function showChecksum(data) {
   const checksumLabelEl = getChecksumLabelEl();
 
   // 1. Remove the 'hide' class to kick off the container's CSS slide-and-fade transition
-  checksumEl.classList.remove("hide");
-  checksumLabelEl.classList.remove("hide");
+  checksumEl.classList.remove('hide');
+  checksumLabelEl.classList.remove('hide');
 
   // 2. The delay step (in seconds) between each bit appearing (e.g., 40ms)
   const staggerDelay = 0.04;
 
   // 3. Populate HTML and map inline custom delays to staggered bits
   checksumEl.innerHTML = data
-    .split("")
+    .split('')
     .map((bit, index) => {
       const delay = index * staggerDelay;
       return `<span class="checksum-bits" style="animation-delay: ${delay}s;">${bit}</span>`;
     })
-    .join("");
+    .join('');
 }
 
 function showRemainder(data) {
   const remainderEl = getRemainderEl();
 
   remainderEl.innerHTML = data
-    .split("")
+    .split('')
     .map((bit) => `<span class="remainder-bits">${bit}</span>`)
-    .join("");
+    .join('');
 }
 
 function showData(data) {
@@ -183,53 +189,53 @@ function showData(data) {
   const staggerDelay = 0.03;
 
   dataEl.innerHTML = data
-    .split("")
+    .split('')
     .map((bit, index) => {
       // Calculate a unique delay for every single letter
       const delay = index * staggerDelay;
 
       return `<span class="data-bits" style="animation-delay: ${delay}s;">${bit}</span>`;
     })
-    .join("");
+    .join('');
 }
 
 function showGenerator(data) {
   const generatorEl = getGeneratorEl();
 
   generatorEl.innerHTML = data
-    .split("")
+    .split('')
     .map((bit) => `<span class="generator-bits">${bit}</span>`)
-    .join("");
+    .join('');
 }
 
 function getChecksumEl() {
-  return document.querySelector(".checksum");
+  return document.querySelector('.checksum');
 }
 
 function getChecksumLabelEl() {
-  return document.querySelector(".checksum-label");
+  return document.querySelector('.checksum-label');
 }
 
 function getRemainderEl() {
-  return document.querySelector(".remainder");
+  return document.querySelector('.remainder');
 }
 
 function getDataEl() {
-  return document.querySelector(".extracted-data");
+  return document.querySelector('.extracted-data');
 }
 
 function getGeneratorEl() {
-  return document.querySelector(".extracted-generator");
+  return document.querySelector('.extracted-generator');
 }
 
 function getDataFrameInputValue() {
   // return "10110101";
-  return document.querySelector("#data").value.trim();
+  return document.querySelector('#data').value.trim();
 }
 
 function getGeneratorInputValue() {
   // return "11011";
-  return document.querySelector("#generator").value.trim();
+  return document.querySelector('#generator').value.trim();
 }
 
 function sleep(duration) {
@@ -247,22 +253,22 @@ function validateInputFields() {
   const generator = getGeneratorInputValue();
 
   if (!dataFrame) {
-    showError("Data frame is invalid");
+    showError('Data frame is invalid');
     return false;
   }
 
-  if (!generator || generator == "1") {
-    showError("Generator is invalid");
+  if (!generator || generator == '1') {
+    showError('Generator is invalid');
     return false;
   }
 
-  if (generator.startsWith("0")) {
-    showError("Begining bits of generator must be 1");
+  if (generator.startsWith('0')) {
+    showError('Begining bits of generator must be 1');
     return false;
   }
 
   if (dataFrame.length < generator.length) {
-    showError("Data frame bits must be more than Generator bits");
+    showError('Data frame bits must be more than Generator bits');
     return false;
   }
 
@@ -270,13 +276,23 @@ function validateInputFields() {
 }
 
 function clearError() {
-  const errorEl = document.querySelector(".error");
+  const errorEl = document.querySelector('.error');
 
-  errorEl.textContent = "";
+  errorEl.textContent = '';
 }
 
 function showError(message) {
-  const errorEl = document.querySelector(".error");
+  const errorEl = document.querySelector('.error');
 
   errorEl.textContent = message;
+}
+
+function resetCalculationSpace() {
+  document.querySelector('.calculation-space').innerHTML = `
+          <div class="extracted-data"></div>
+          <div class="extracted-generator"></div>
+          <div class="divider-line"></div>
+          <div class="remainder"></div>
+          <div class="checksum hide"></div>
+          <div class="checksum-label hide">checksum</div>`;
 }
